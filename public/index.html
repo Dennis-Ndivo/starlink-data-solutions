@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>STARLINK DATA SOLUTIONS</title>
+  <meta name="description" content="Data, talk and SMS bundles paid by M-PESA. No registration required.">
+  <meta name="theme-color" content="#FAF7F2">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230B1F3A'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%231FA54A'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page">
+    <header class="masthead">
+      <p class="masthead-top">
+        <span class="badge">GLOBAL 5G MESH</span>
+        <span class="masthead-note">Instant Access</span>
+      </p>
+      <h1>STARLINK DATA SOLUTIONS</h1>
+      <p class="subtitle">WORLD WIDE CONNECTIVITY — NO REGISTRATION REQUIRED</p>
+      <p class="status"><span class="status-dot" aria-hidden="true"></span>ACTIVE NOW</p>
+    </header>
+
+    <section class="selected-bar" aria-live="polite" aria-label="Selected package">
+      <p class="eyebrow">CURRENTLY SELECTED PACKAGE</p>
+      <div class="selected-row">
+        <p class="selected-name" id="selected-name">&nbsp;</p>
+        <p class="selected-price"><span id="selected-price"></span> <small>KSH</small></p>
+      </div>
+      <p class="selected-validity" id="selected-validity">&nbsp;</p>
+    </section>
+
+    <main>
+      <p class="load-error" id="load-error" hidden>
+        We could not load the bundles.
+        <button type="button" class="link-button" id="reload">Reload</button>
+      </p>
+
+      <div class="stack" id="featured"></div>
+
+      <section class="group" aria-labelledby="data-heading">
+        <h2 id="data-heading">Data Bundles</h2>
+        <div class="grid" id="group-data"></div>
+      </section>
+
+      <section class="group" aria-labelledby="talk-heading">
+        <h2 id="talk-heading">Talk Minutes</h2>
+        <div class="grid" id="group-talk"></div>
+      </section>
+
+      <section class="group" aria-labelledby="sms-heading">
+        <h2 id="sms-heading">SMS Bundles</h2>
+        <div class="grid" id="group-sms"></div>
+      </section>
+
+      <section class="pay-card" id="pay-card" aria-labelledby="pay-title">
+        <p class="eyebrow eyebrow-dark">INSTANT PAYMENT</p>
+        <h2 id="pay-title">PAY <span id="pay-price"></span> KSH FOR <span id="pay-bundle"></span></h2>
+        <p class="pay-lead">Just your name &amp; phone number</p>
+        <button type="button" class="btn" id="open-pay">Enter details &amp; pay</button>
+        <p class="pay-note">We send an M-PESA prompt to your phone — no till number to copy, no registration.</p>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <ol class="steps">
+        <li><span class="step-number">1</span>Pick a bundle</li>
+        <li><span class="step-number">2</span>Enter name &amp; number</li>
+        <li><span class="step-number">3</span>Approve M-PESA prompt</li>
+        <li><span class="step-number">4</span>Get connected</li>
+      </ol>
+      <p class="copyright">© 2026 STARLINK DATA SOLUTIONS</p>
+    </footer>
+  </div>
+
+  <dialog class="modal" id="pay-modal" aria-labelledby="modal-title">
+    <p class="demo-note" id="demo-note" hidden></p>
+
+    <div data-view="form">
+      <div class="modal-head">
+        <h2 id="modal-title">Your details</h2>
+        <button type="button" class="close" data-close aria-label="Close">×</button>
+      </div>
+      <p class="modal-summary" id="modal-summary"></p>
+      <form id="pay-form" novalidate>
+        <label for="name">Name</label>
+        <input id="name" name="name" autocomplete="name" maxlength="60">
+        <p class="field-error" id="name-error" hidden></p>
+
+        <label for="phone">Phone</label>
+        <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="0712345678">
+        <p class="field-error" id="phone-error" hidden></p>
+
+        <p class="field-error form-error" id="form-error" role="alert" hidden></p>
+        <button type="submit" class="btn" id="submit-pay">Send M-PESA prompt</button>
+      </form>
+    </div>
+
+    <div data-view="waiting" class="centered" hidden>
+      <div class="spinner" aria-hidden="true"></div>
+      <h2>Check your phone and enter your M-PESA PIN</h2>
+      <p class="muted" id="waiting-summary"></p>
+    </div>
+
+    <div data-view="success" hidden>
+      <div class="result-mark result-ok" aria-hidden="true">✓</div>
+      <h2 class="centered">Payment received</h2>
+      <dl class="receipt">
+        <div><dt>Bundle</dt><dd id="r-bundle"></dd></div>
+        <div><dt>Amount</dt><dd id="r-amount"></dd></div>
+        <div><dt>Phone</dt><dd id="r-phone"></dd></div>
+        <div><dt>Receipt</dt><dd id="r-receipt"></dd></div>
+      </dl>
+      <button type="button" class="btn" data-close>Done</button>
+    </div>
+
+    <div data-view="failed" hidden>
+      <div class="result-mark result-bad" aria-hidden="true">!</div>
+      <h2 class="centered">Payment not completed</h2>
+      <p class="failure-reason" id="failure-reason"></p>
+      <button type="button" class="btn" id="try-again">Try again</button>
+    </div>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
